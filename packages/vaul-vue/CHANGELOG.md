@@ -1,5 +1,11 @@
 # vaul-vue
 
+## 0.2.1
+
+### Patch Changes
+
+- bdb5860: Fixed nested drawer animation issue
+
 ## 0.2.0
 
 ### Minor Changes
