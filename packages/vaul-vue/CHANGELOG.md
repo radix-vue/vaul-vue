@@ -1,5 +1,12 @@
 # vaul-vue
 
+## 0.2.1
+
+### Patch Changes
+
+- bdb5860: Fixed nested drawer animation issue
+- 4df119c: adjust snapPoints on window resize
+
 ## 0.2.0
 
 ### Minor Changes
