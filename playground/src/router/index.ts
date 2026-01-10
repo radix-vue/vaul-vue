@@ -54,6 +54,10 @@ const router = createRouter({
           path: 'with-snap-points',
           component: () => import('../views/tests/WithSnapPointsView.vue'),
         },
+        {
+          path: 'form',
+          component: () => import('../views/tests/FormView.vue'),
+        },
 
       ],
     },

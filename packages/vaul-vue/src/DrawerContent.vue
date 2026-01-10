@@ -3,9 +3,9 @@ import { computed, ref, watchEffect } from 'vue'
 import { DialogContent } from 'reka-ui'
 import { injectDrawerRootContext } from './context'
 import { useScaleBackground } from './useScaleBackground'
+import { useKeyboardHandler } from './useKeyboardHandler'
 
 const {
-  open,
   isOpen,
   snapPointsOffset,
   hasSnapPoints,
@@ -16,13 +16,27 @@ const {
   modal,
   emitOpenChange,
   dismissible,
-  keyboardIsOpen,
-  closeDrawer,
   direction,
   handleOnly,
+  snapPoints,
+  activeSnapPointIndex,
+  fixed,
+  repositionInputs,
 } = injectDrawerRootContext()
 
 useScaleBackground()
+
+// Use the keyboard handler for repositioning when virtual keyboard appears
+const { keyboardIsOpen } = useKeyboardHandler({
+  isOpen,
+  drawerRef,
+  snapPoints,
+  snapPointsOffset,
+  activeSnapPointIndex: computed(() => activeSnapPointIndex.value ?? undefined),
+  fixed,
+  direction,
+  repositionInputs,
+})
 
 const delayedSnapPoints = ref(false)
 
@@ -38,8 +52,14 @@ function handlePointerDownOutside(event: Event) {
     event.preventDefault()
     return
   }
-  if (keyboardIsOpen.value)
-    keyboardIsOpen.value = false
+  if (keyboardIsOpen.value) {
+    // Blur active element to close keyboard first
+    const activeEl = document.activeElement as HTMLElement
+    if (activeEl && typeof activeEl.blur === 'function') {
+      activeEl.blur()
+    }
+    return
+  }
 
   if (dismissible.value) {
     emitOpenChange(false)
@@ -79,6 +99,7 @@ watchEffect (() => {
     :data-vaul-drawer-direction="direction"
     :data-vaul-delayed-snap-points="delayedSnapPoints ? 'true' : 'false'"
     :data-vaul-snap-points="isOpen && hasSnapPoints ? 'true' : 'false'"
+    :data-vaul-keyboard-open="keyboardIsOpen ? 'true' : 'false'"
     :style="{ '--snap-point-height': snapPointHeight }"
     @pointerdown="handlePointerDown"
     @pointermove="handleOnDrag"

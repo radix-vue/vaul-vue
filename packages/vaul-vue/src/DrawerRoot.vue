@@ -27,6 +27,7 @@ const props = withDefaults(defineProps<DrawerRootProps>(), {
   scrollLockTimeout: SCROLL_LOCK_TIMEOUT,
   direction: 'bottom',
   handleOnly: false,
+  repositionInputs: true,
 })
 
 const emit = defineEmits<DrawerRootEmits>()

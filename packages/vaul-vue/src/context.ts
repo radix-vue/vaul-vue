@@ -17,11 +17,14 @@ export interface DrawerRootContext {
   hasSnapPoints: Ref<boolean>
   keyboardIsOpen: Ref<boolean>
   activeSnapPoint: Ref<number | string | null | undefined>
+  activeSnapPointIndex: Ref<number | null>
   pointerStart: Ref<number>
   dismissible: Ref<boolean>
   drawerHeightRef: Ref<number>
   snapPointsOffset: Ref<number[]>
   direction: Ref<DrawerDirection>
+  fixed: Ref<boolean | undefined>
+  repositionInputs: Ref<boolean>
   onPress: (event: PointerEvent) => void
   onDrag: (event: PointerEvent) => void
   onRelease: (event: PointerEvent) => void

@@ -77,6 +77,12 @@ export type DrawerRootProps = {
    */
   handleOnly?: boolean
   preventScrollRestoration?: boolean
+  /**
+   * When `true` Vaul will reposition inputs rather than scroll them into view if the keyboard is in the way.
+   * Setting it to `false` will fall back to the default browser behavior.
+   * @default true
+   */
+  repositionInputs?: boolean
 } & WithoutFadeFromProps
 
 export interface UseDrawerProps {
@@ -96,6 +102,7 @@ export interface UseDrawerProps {
   noBodyStyles: Ref<boolean>
   preventScrollRestoration: Ref<boolean>
   handleOnly: Ref<boolean>
+  repositionInputs: Ref<boolean>
 }
 
 export interface DrawerRootEmits {
@@ -167,6 +174,7 @@ export function useDrawer(props: UseDrawerProps & DialogEmitHandlers): DrawerRoo
     noBodyStyles,
     handleOnly,
     preventScrollRestoration,
+    repositionInputs,
   } = props
 
   const isOpen = ref(open.value ?? false)
@@ -691,5 +699,8 @@ export function useDrawer(props: UseDrawerProps & DialogEmitHandlers): DrawerRoo
     nested,
     handleOnly,
     noBodyStyles,
+    activeSnapPointIndex,
+    fixed,
+    repositionInputs,
   }
 }
