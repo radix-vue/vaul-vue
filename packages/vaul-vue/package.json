@@ -2,6 +2,7 @@
   "name": "vaul-vue",
   "type": "module",
   "version": "0.4.1",
+  "license": "MIT",
   "repository": "https://github.com/Elliot-Alexander/vaul-vue",
   "keywords": [
     "vue",
