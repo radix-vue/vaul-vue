@@ -8,7 +8,11 @@ const noop = () => () => {}
 export function useScaleBackground() {
   const { direction, isOpen, shouldScaleBackground, setBackgroundColorOnScale, noBodyStyles } = injectDrawerRootContext()
   const timeoutIdRef = ref<number | null>(null)
-  const initialBackgroundColor = ref(document.body.style.backgroundColor)
+  // Guard against SSR: `document` is undefined on the server. This composable
+  // is called synchronously during DrawerContent setup, so without this guard
+  // server-side rendering crashes. The watchEffect below never runs on the
+  // server (Vue skips watch callbacks during SSR), so client behaviour is unchanged.
+  const initialBackgroundColor = ref(typeof document !== 'undefined' ? document.body.style.backgroundColor : '')
 
   function getScale() {
     return (window.innerWidth - WINDOW_TOP_OFFSET) / window.innerWidth
