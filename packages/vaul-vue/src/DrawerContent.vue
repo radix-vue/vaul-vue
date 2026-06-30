@@ -63,10 +63,17 @@ function handleOnDrag(event: PointerEvent) {
   onDrag(event)
 }
 
-watchEffect (() => {
+watchEffect(() => {
   if (hasSnapPoints.value) {
+    // Vue's watchEffect runs pre-paint (unlike React's useEffect which runs post-paint).
+    // A single rAF fires before the browser commits the initial off-screen state to screen,
+    // so the CSS transition from 100% → snap-point-height has no painted "from" value
+    // and the enter animation is skipped. A double rAF ensures the off-screen state is
+    // painted in one frame before delayedSnapPoints is set in the next.
     window.requestAnimationFrame(() => {
-      delayedSnapPoints.value = true
+      window.requestAnimationFrame(() => {
+        delayedSnapPoints.value = true
+      })
     })
   }
 })

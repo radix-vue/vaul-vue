@@ -34,6 +34,19 @@
   animation-name: slideToRight;
 }
 
+[data-vaul-drawer][data-vaul-snap-points='true'][data-vaul-drawer-direction='bottom'][data-state='open'] {
+  animation-name: slideFromBottomSnap;
+}
+[data-vaul-drawer][data-vaul-snap-points='true'][data-vaul-drawer-direction='top'][data-state='open'] {
+  animation-name: slideFromTopSnap;
+}
+[data-vaul-drawer][data-vaul-snap-points='true'][data-vaul-drawer-direction='left'][data-state='open'] {
+  animation-name: slideFromLeftSnap;
+}
+[data-vaul-drawer][data-vaul-snap-points='true'][data-vaul-drawer-direction='right'][data-state='open'] {
+  animation-name: slideFromRightSnap;
+}
+
 [data-vaul-drawer][data-vaul-snap-points='true'][data-vaul-drawer-direction='bottom'] {
   transform: translate3d(0, var(--initial-transform, 100%), 0);
 }
@@ -201,6 +214,42 @@
   }
   to {
     transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideFromBottomSnap {
+  from {
+    transform: translate3d(0, var(--initial-transform, 100%), 0);
+  }
+  to {
+    transform: translate3d(0, var(--snap-point-height, 0), 0);
+  }
+}
+
+@keyframes slideFromTopSnap {
+  from {
+    transform: translate3d(0, calc(var(--initial-transform, 100%) * -1), 0);
+  }
+  to {
+    transform: translate3d(0, var(--snap-point-height, 0), 0);
+  }
+}
+
+@keyframes slideFromLeftSnap {
+  from {
+    transform: translate3d(calc(var(--initial-transform, 100%) * -1), 0, 0);
+  }
+  to {
+    transform: translate3d(var(--snap-point-height, 0), 0, 0);
+  }
+}
+
+@keyframes slideFromRightSnap {
+  from {
+    transform: translate3d(var(--initial-transform, 100%), 0, 0);
+  }
+  to {
+    transform: translate3d(var(--snap-point-height, 0), 0, 0);
   }
 }
 
