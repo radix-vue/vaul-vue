@@ -10,6 +10,7 @@ import {
 } from './controls'
 import { CLOSE_THRESHOLD, SCROLL_LOCK_TIMEOUT, TRANSITIONS } from './constants'
 import './style.css'
+import { usePreventScroll } from './usePreventScroll'
 
 const props = withDefaults(defineProps<DrawerRootProps>(), {
   open: undefined,
@@ -61,7 +62,7 @@ const emitHandlers = {
   },
 }
 
-const { closeDrawer, hasBeenOpened, modal, isOpen } = provideDrawerRootContext(
+const { closeDrawer, hasBeenOpened, modal, isOpen, isDragging } = provideDrawerRootContext(
   useDrawer({
     ...emitHandlers,
     ...toRefs(props),
@@ -70,6 +71,10 @@ const { closeDrawer, hasBeenOpened, modal, isOpen } = provideDrawerRootContext(
     open,
   }),
 )
+
+usePreventScroll(computed(() => ({
+  isDisabled: !isOpen.value || isDragging.value || !modal.value || !hasBeenOpened.value,
+})))
 
 function handleOpenChange(o: boolean) {
   if (open.value !== undefined) {

@@ -5,6 +5,7 @@ import { dampenValue, getTranslate, isVertical, reset, set } from './helpers'
 import { BORDER_RADIUS, DRAG_CLASS, NESTED_DISPLACEMENT, TRANSITIONS, VELOCITY_THRESHOLD, WINDOW_TOP_OFFSET } from './constants'
 import { useSnapPoints } from './useSnapPoints'
 import { usePositionFixed } from './usePositionFixed'
+import { isIOS } from './browser'
 import type { DrawerRootContext } from './context'
 import type { DrawerDirection } from './types'
 
@@ -323,6 +324,10 @@ export function useDrawer(props: UseDrawerProps & DialogEmitHandlers): DrawerRoo
       return
     isDragging.value = true
     dragStartTime.value = new Date()
+
+    if (isIOS()) {
+      window.addEventListener('touchend', () => (isAllowedToDrag.value = false), { once: true })
+    }
 
     ;(event.target as HTMLElement).setPointerCapture(event.pointerId)
     pointerStart.value = isVertical(direction.value) ? event.clientY : event.clientX
